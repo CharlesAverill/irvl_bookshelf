@@ -373,7 +373,10 @@ function showError(msg) {
 }
 
 function htmlEncode(value){
-  return $('<div/>').text(value).html();
+  var out = $('<div/>').text(value).html();
+  if(out == "null")
+	return "";
+  return out;
 }
 
 function renderQuery(query) {
