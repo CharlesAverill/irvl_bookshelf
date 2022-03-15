@@ -4,7 +4,7 @@ As of March 2022, I work at the University of Texas at Dallas as a Student Assis
 
 Charles Averill
 
-### License
+### Original SQLite Viewer License
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
