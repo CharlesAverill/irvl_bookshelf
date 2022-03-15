@@ -429,8 +429,12 @@ function renderQuery(query) {
 			case "url":
 				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
 				break;
+			case "image":
+				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
+				break;
 			default:
 				console.error("Content type " + contentType + " not supported");
+				break;
 		}
 		// Append content
         tbody.append(tr);
