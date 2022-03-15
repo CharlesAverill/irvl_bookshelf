@@ -107,21 +107,19 @@ windowResize();
 $(".no-propagate").on("click", function (el) { el.stopPropagation(); });
 
 //Check url to load remote DB
-var loadUrlDB = $.urlParam('url');
-if (loadUrlDB != null) {
-    setIsLoading(true);
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', decodeURIComponent(loadUrlDB), true);
-    xhr.responseType = 'arraybuffer';
+var loadUrlDB = "examples/Chinook_Sqlite.sqlite";
+setIsLoading(true);
+var xhr = new XMLHttpRequest();
+xhr.open('GET', decodeURIComponent(loadUrlDB), true);
+xhr.responseType = 'arraybuffer';
 
-    xhr.onload = function(e) {
-        loadDB(this.response);
-    };
-    xhr.onerror = function (e) {
-        setIsLoading(false);
-    };
-    xhr.send();
-}
+xhr.onload = function(e) {
+	loadDB(this.response);
+};
+xhr.onerror = function (e) {
+	setIsLoading(false);
+};
+xhr.send();
 
 function loadDB(arrayBuffer) {
     setIsLoading(true);
@@ -163,7 +161,7 @@ function loadDB(arrayBuffer) {
         $("#output-box").fadeIn();
         $(".nouploadinfo").hide();
         $("#sample-db-link").hide();
-        $("#dropzone").delay(50).animate({height: 50}, 500);
+		$("#dropzone").delay(550).hide();
         $("#success-box").show();
 
         setIsLoading(false);

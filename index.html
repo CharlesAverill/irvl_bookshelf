@@ -3,11 +3,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <meta charset="utf-8">
-    <meta name="description" content="sqlite file viewer">
-    <meta name="keywords" content="sqlite,viewer,db,database,online">
-    <meta name="author" content="Juraj Novák">
+    <meta name="description" content="IRVL Bookshelf Explorer">
+    <meta name="keywords" content="computer_science, networks, cs, computer, science, research">
+    <meta name="author" content="Charles Averill">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQLite Viewer</title>
+    <title>IRVL Bookshelf</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/select2.css" rel="stylesheet">
     <link href="css/select2-bootstrap.css" rel="stylesheet">
@@ -28,15 +28,10 @@
 <div id="main-container" class="container">
     <div id="header">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 <img src="img/logo.svg" class="img-responsive pull-left" style="margin-right: 16px;"/>
-                <h3>SQLite Viewer</h3>
-                <p>view sqlite file online</p>
-            </div>
-            <div class="col-xs-6">
-                <a href="#" id="resizer" class="pull-right">
-                    <i class="glyphicon glyphicon-resize-full"></i>
-                </a>
+                <h3>IRVL Bookshelf</h3>
+                <p>A collection of foundational CS documents (and more) found in the Intelligent Robotics and Vision Laboratory at the University of Texas at Dallas, left behind by previous lab owners</p>
             </div>
         </div>
     </div>
@@ -49,14 +44,9 @@
         </div>
     </div>
 
-    <div class="panel panel-info" id="dropzone" onclick="dropzoneClick(this)">
+    <div class="panel panel-info" id="dropzone">
         <div id="drop-text" class="panel-body">
-            <b>Drop file here</b> to load content or click on this box to open file dialog.<br/>
-
-            <div class="nouploadinfo small">No file will be uploaded - uses only JavaScript HTML5 FileReader.<br/><br/>
-            </div>
-            
-            <a id="sample-db-link" class="no-propagate small" href="examples/Chinook_Sqlite.sqlite">&hellip; or download &amp; try this sample file</a>
+            <b>Retrieving database...</b><br/>
         </div>
         <div id="drop-loading" class="panel-body" style="display: none">
             <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <b>Processing file ...</b>
@@ -112,16 +102,12 @@
 
 <div class="container">
     <footer>
-        &copy; 2020, Juraj Novák<br>
-        <small>| <a href="http://inloop.github.io/">other projects</a> |</small>
+        &copy; 2022, Charles Averill<br>
+        <small>| <a href="https://charles.systems/" target="_blank">other projects</a> |</small>
     </footer>
 </div>
 
 <input type="file" id="dropzone-dialog" style="opacity: 0;display:none">
-
-<div class="ribbon right grey hidden-xs">
-    <a href="https://github.com/inloop/sqlite-viewer">Fork me on GitHub</a>
-</div>
 
 <script src="js/jquery-1.11.3.min.js"></script>
 <script src="js/filereader.js"></script>
