@@ -1,0 +1,1 @@
+LAST TWO COLUMNS OF ANY TABLE MUST BE "Content" AND "ContentType"
