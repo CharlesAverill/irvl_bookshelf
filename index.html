@@ -120,11 +120,15 @@
 		  </div>
       </div>
       <div class="modal-body">
-          <img id="imageModalImage" src="" style="max-width: 100%;" hidden />
-		  <div id="imageModalMisc" hidden></div>
+          <img id="imageModalImage" src="" style="max-width: 100%;"/>
+		  <audio id="audioModalContainer" src="" controls>
+			  <source id="audioModalSource">
+			  Your browser does not support the audio element..
+		  </audio>
+		  <div id="miscModal"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
 		<a id="modalDownload" href="" download><button type="button" class="btn btn-primary">Download</button></a>
       </div>
     </div>
@@ -151,10 +155,29 @@
 		$("#imageModalImage").attr("src", id);
 		$("#modalDownload").attr("href", id);
 		
-		$("#imageModalMisc").hide();
+		$("#miscModal").hide();
+		$("#audioModalContainer").hide();
 		$("#imageModalImage").show();
 		
 		$("#mainModal").modal();
+	}
+	
+	function launchAudioModal(id) {
+		$("#miscModal").hide();
+		$("#audioModalContainer").show();
+		$("#imageModalImage").hide();
+		
+		$("#audioModalContainer").attr("src", id);
+		$("#modalDownload").attr("href", id);
+		
+		$("#mainModal").modal();
+	}
+	
+	function closeModal() {
+		$("#mainModal").modal("hide");
+		
+		$("audio").get(0).pause();
+		$("audio").currentTime = 0;
 	}
 </script>
 
