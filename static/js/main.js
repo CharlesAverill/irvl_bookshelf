@@ -438,6 +438,9 @@ function renderQuery(query) {
 			case "audio":
 				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchAudioModal(this.id)\">Listen</a></span></td>");
 				break;
+			case "video":
+				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchVideoModal(this.id)\">Watch</a></span></td>");
+				break;
 			default:
 				console.error("Content type " + contentType + " not supported");
 				break;
