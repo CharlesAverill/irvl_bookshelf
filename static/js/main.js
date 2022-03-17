@@ -405,48 +405,62 @@ function renderQuery(query) {
     }
 
     var addedColums = false;
+	var contentIndex, contentTypeIndex = -1;
     while (sel.step()) {
         if (!addedColums) {
             addedColums = true;
             var columnNames = sel.getColumnNames();
-			columnNames = columnNames.slice(0, -1);
+			//columnNames = columnNames.slice(0, -1);
             for (var i = 0; i < columnNames.length; i++) {
+				if(columnNames[i] == "Content") {
+					contentIndex = i;
+				} else if(columnNames[i] == "ContentType") {
+					contentTypeIndex = i;
+					continue;
+				}
                 var type = columnTypes[columnNames[i]];
                 thead.append('<th><span data-toggle="tooltip" data-placement="top" title="' + type + '">' + columnNames[i] + "</span></th>");
             }
         }
+		
+		console.log(contentIndex, contentTypeIndex);
 
         var tr = $('<tr>');
         var s = sel.get();
 		// Get this column's content type
-		var contentType = s[s.length - 1];
+		var contentType = s[contentTypeIndex];
 		// Remove content type from visible columns
-		s = s.slice(0, -1);
+		//s = s.slice(0, contentTypeIndex) + s.slice(contentTypeIndex + 1, s.length);
 		// Render data
         for (var i = 0; i < s.length - 1; i++) {
-            tr.append('<td><span title="' + htmlEncode(s[i]) + '">' + htmlEncode(s[i]) + '</span></td>');
+			if(i == contentTypeIndex) {
+				continue;
+			} else if(i == contentIndex) {
+				// Render content
+				var htmlEncodedContent = "data/" + htmlEncode(s[i]);
+				switch(contentType) {
+					case "url":
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
+						break;
+					case "image":
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
+						break;
+					case "audio":
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchAudioModal(this.id)\">Listen</a></span></td>");
+						break;
+					case "video":
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchVideoModal(this.id)\">Watch</a></span></td>");
+						break;
+					default:
+						console.error("Content type " + contentType + " not supported");
+						break;
+				}
+				// Append content
+				tbody.append(tr);
+			} else {
+            	tr.append('<td><span title="' + htmlEncode(s[i]) + '">' + htmlEncode(s[i]) + '</span></td>');
+			}
         }
-		// Render content
-		var htmlEncodedContent = "data/" + htmlEncode(s[i]);
-		switch(contentType) {
-			case "url":
-				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
-				break;
-			case "image":
-				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
-				break;
-			case "audio":
-				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchAudioModal(this.id)\">Listen</a></span></td>");
-				break;
-			case "video":
-				tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchVideoModal(this.id)\">Watch</a></span></td>");
-				break;
-			default:
-				console.error("Content type " + contentType + " not supported");
-				break;
-		}
-		// Append content
-        tbody.append(tr);
     }
 
     refreshPagination(query, tableName);
