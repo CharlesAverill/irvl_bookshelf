@@ -440,6 +440,9 @@ function renderQuery(query) {
 				var htmlEncodedContent = "data/" + htmlEncode(s[i]);
 				switch(contentType) {
 					case "url":
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\" download>Download</a></span></td>");
+						break;
+					case "document":
 						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
 						break;
 					case "image":
