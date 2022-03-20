@@ -151,8 +151,38 @@ function loadDB(arrayBuffer) {
             }
             var rowCount = getTableRowsCount(name);
             rowCounts[name] = rowCount;
-            tableList.append('<option value="' + name + '">' + name + ' (' + rowCount + ' rows)</option>');
+            tableList.append('<option value="' + name + '">' + name + ' (' + rowCount + ' items)</option>');
         }
+		
+		/*
+		var tableButtons = $("#tableButtonContainer");
+		
+		tableObjects = [];
+		while(tables.step()) {
+			tableObjects.push(tables.getAsObject());
+		}
+		
+		var firstTableName = tableObjects[0].name;
+		
+		tableObjects.forEach(
+			rowObj => {
+				rowCounts[rowObj.name] = getTableRowsCount(rowObj.name); 
+				tableButtons.append("<button type=\"button\" class=\"btn\" onclick=\"selectTable(\"" + rowObj.name + "\")>" + rowObj.name + "</button>");
+			}
+		);
+		*/
+		
+		while(tables.step()) {
+			var rowObj = tables.getAsObject();
+			var name = rowObj.name;
+			
+			if(firstTableName === null) {
+				firstTableName = name;
+			}
+			
+			var rowCount = getTableRowsCount(name);
+			rowCounts[name] = rowCount;
+		}
 
         //Select first table and show It
         tableList.select2("val", firstTableName);
