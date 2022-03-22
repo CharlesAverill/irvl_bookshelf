@@ -435,7 +435,8 @@ function renderQuery(query) {
     }
 
     var addedColums = false;
-	var contentIndex, contentTypeIndex = -1;
+	var contentIndex = -1;
+	var contentTypeIndex = -1;
     while (sel.step()) {
         if (!addedColums) {
             addedColums = true;
@@ -456,13 +457,14 @@ function renderQuery(query) {
 		console.log(contentIndex, contentTypeIndex);
 
         var tr = $('<tr>');
+		console.log(tr);
         var s = sel.get();
 		// Get this column's content type
 		var contentType = s[contentTypeIndex];
 		// Remove content type from visible columns
 		//s = s.slice(0, contentTypeIndex) + s.slice(contentTypeIndex + 1, s.length);
 		// Render data
-        for (var i = 0; i < s.length - 1; i++) {
+        for (var i = 0; i < s.length; i++) {
 			if(i == contentTypeIndex) {
 				continue;
 			} else if(i == contentIndex) {
@@ -488,11 +490,12 @@ function renderQuery(query) {
 						console.error("Content type " + contentType + " not supported");
 						break;
 				}
-				// Append content
-				tbody.append(tr);
 			} else {
             	tr.append('<td><span title="' + htmlEncode(s[i]) + '">' + htmlEncode(s[i]) + '</span></td>');
 			}
+			
+			// Append content
+			tbody.append(tr);
         }
     }
 
