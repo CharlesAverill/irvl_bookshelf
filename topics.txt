@@ -8,3 +8,6 @@ PL - Programming Languages
 PSW - Proprietary Software
 MATH - Mathematics
 NL - Natural Language
+EE - Electrical Engineering
+CRP - Cryptography
+SEC - Information Security
