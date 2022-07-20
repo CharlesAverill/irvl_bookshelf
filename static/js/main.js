@@ -107,7 +107,7 @@ windowResize();
 $(".no-propagate").on("click", function (el) { el.stopPropagation(); });
 
 //Check url to load remote DB
-var loadUrlDB = "data/catalogue.sqlite";
+var loadUrlDB = "data/catalogue.sqlite.db";
 setIsLoading(true);
 var xhr = new XMLHttpRequest();
 xhr.open('GET', decodeURIComponent(loadUrlDB), true);
@@ -437,6 +437,7 @@ function renderQuery(query) {
     var addedColums = false;
 	var contentIndex = -1;
 	var contentTypeIndex = -1;
+	var isbnColumns = [];
     while (sel.step()) {
         if (!addedColums) {
             addedColums = true;
@@ -448,16 +449,15 @@ function renderQuery(query) {
 				} else if(columnNames[i] == "ContentType") {
 					contentTypeIndex = i;
 					continue;
+				} else if(columnNames[i].includes("ISBN")) {
+					isbnColumns.push(i);
 				}
                 var type = columnTypes[columnNames[i]];
                 thead.append('<th><span data-toggle="tooltip" data-placement="top" title="' + type + '">' + columnNames[i] + "</span></th>");
             }
         }
 		
-		console.log(contentIndex, contentTypeIndex);
-
         var tr = $('<tr>');
-		console.log(tr);
         var s = sel.get();
 		// Get this column's content type
 		var contentType = s[contentTypeIndex];
@@ -467,12 +467,14 @@ function renderQuery(query) {
         for (var i = 0; i < s.length; i++) {
 			if(i == contentTypeIndex) {
 				continue;
-			} else if(i == contentIndex) {
+			} else if(isbnColumns.includes(i)) {
+				tr.append('<td><span title="' + htmlEncode(s[i]) + '"><a href=\"https://isbnsearch.org/isbn/' + htmlEncode(s[i]) + '\" target=\"_blank\">' + htmlEncode(s[i]) + '</a></span></td>');
+			} else if(i == contentIndex && contentType != null) {
 				// Render content
 				var htmlEncodedContent = "data/" + htmlEncode(s[i]);
 				switch(contentType) {
 					case "url":
-						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\" download>Download</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent.slice(5) + "\"><a href=\"" + htmlEncodedContent.slice(5) + "\" target=\"_blank\" download>View</a></span></td>");
 						break;
 					case "document":
 						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
