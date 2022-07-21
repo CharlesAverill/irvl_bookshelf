@@ -106,7 +106,7 @@
         <small>| <a href="https://charles.systems/" target="_blank">home page</a> | <a href="https://github.com/CharlesAverill/irvl_bookshelf/" target="_blank">source</a> | <a href="https://labs.utdallas.edu/irvl/" target="_blank">irvl</a> |</small>
     </footer>
 </div>
-	
+
 <div class="modal fade" id="mainModal" tabindex="-1" role="dialog" aria-labelledby="mainModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -157,49 +157,49 @@
             executeSql()
         }
     }
-	
+
 	function launchImageModal(id) {
 		$("#imageModalImage").attr("src", id);
 		$("#modalDownload").attr("href", id);
-		
+
 		$("#miscModal").hide();
 		$("#audioModalContainer").hide();
 		$("#videoModalContainer").hide();
 		$("#imageModalImage").show();
-		
+
 		$("#mainModal").modal();
 	}
-	
+
 	function launchAudioModal(id) {
 		$("#audioModalContainer").attr("src", id);
 		$("#modalDownload").attr("href", id);
-		
+
 		$("#miscModal").hide();
 		$("#audioModalContainer").show();
 		$("#videoModalContainer").hide();
 		$("#imageModalImage").hide();
-		
+
 		$("#mainModal").modal();
 	}
-	
+
 	function launchVideoModal(id) {
 		$("#videoModalContainer").attr("src", id);
 		$("#modalDownload").attr("href", id);
-		
+
 		$("#miscModal").hide();
 		$("#audioModalContainer").hide();
 		$("#videoModalContainer").show();
 		$("#imageModalImage").hide();
-		
+
 		$("#mainModal").modal();
 	}
-	
+
 	function closeModal() {
 		$("#mainModal").modal("hide");
-		
+
 		$("audio").get(0).pause();
 		$("audio").currentTime = 0;
-		
+
 		$("video").get(0).pause();
 		$("video").currentTime = 0;
 	}

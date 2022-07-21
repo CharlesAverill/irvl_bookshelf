@@ -106,6 +106,12 @@ windowResize();
 
 $(".no-propagate").on("click", function (el) { el.stopPropagation(); });
 
+var topics;
+
+$.getJSON('data/topics.json', function(data) {
+    topics = data;
+});
+
 //Check url to load remote DB
 var loadUrlDB = "data/catalogue.sqlite.db";
 setIsLoading(true);
@@ -433,6 +439,7 @@ function renderQuery(query) {
     var addedColums = false;
 	var contentIndex = -1;
 	var contentTypeIndex = -1;
+    var topicIndex = -1;
 	var isbnColumns = [];
     while (sel.step()) {
         if (!addedColums) {
@@ -445,7 +452,9 @@ function renderQuery(query) {
 				} else if(columnNames[i] == "ContentType") {
 					contentTypeIndex = i;
 					continue;
-				} else if(columnNames[i].includes("ISBN")) {
+                } else if(columnNames[i] == "Topic") {
+                    topicIndex = i;
+                } else if(columnNames[i].includes("ISBN")) {
 					isbnColumns.push(i);
 				}
                 var type = columnTypes[columnNames[i]];
@@ -465,7 +474,9 @@ function renderQuery(query) {
 				continue;
 			} else if(isbnColumns.includes(i)) {
 				tr.append('<td><span title="' + htmlEncode(s[i]) + '"><a href=\"https://isbnsearch.org/isbn/' + htmlEncode(s[i]) + '\" target=\"_blank\">' + htmlEncode(s[i]) + '</a></span></td>');
-			} else if(i == contentIndex && contentType != null) {
+            } else if(i == topicIndex) {
+                tr.append('<td><span title="' + topics[htmlEncode(s[i])] + '">' + htmlEncode(s[i]) + '</span></td>');
+            } else if(i == contentIndex && contentType != null) {
 				// Render content
 				var htmlEncodedContent = "data/" + htmlEncode(s[i]);
 				switch(contentType) {
@@ -486,6 +497,7 @@ function renderQuery(query) {
 						break;
 					default:
 						console.error("Content type " + contentType + " not supported");
+                        tr.append("<td><span title=\"" + htmlEncodedContent + "\">" + htmlEncodedContent + "</span></td>");
 						break;
 				}
 			} else {
