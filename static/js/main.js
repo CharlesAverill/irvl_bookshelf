@@ -139,54 +139,50 @@ function loadDB(arrayBuffer) {
             return;
         }
 
-        var firstTableName = null;
         var tableList = $("#tables");
 
         while (tables.step()) {
             var rowObj = tables.getAsObject();
             var name = rowObj.name;
 
-            if (firstTableName === null) {
-                firstTableName = name;
+            if(name.includes("sqlite")) {
+                continue;
             }
+
             var rowCount = getTableRowsCount(name);
             rowCounts[name] = rowCount;
             tableList.append('<option value="' + name + '">' + name + ' (' + rowCount + ' items)</option>');
         }
-		
+
 		/*
 		var tableButtons = $("#tableButtonContainer");
-		
+
 		tableObjects = [];
 		while(tables.step()) {
 			tableObjects.push(tables.getAsObject());
 		}
-		
+
 		var firstTableName = tableObjects[0].name;
-		
+
 		tableObjects.forEach(
 			rowObj => {
-				rowCounts[rowObj.name] = getTableRowsCount(rowObj.name); 
+				rowCounts[rowObj.name] = getTableRowsCount(rowObj.name);
 				tableButtons.append("<button type=\"button\" class=\"btn\" onclick=\"selectTable(\"" + rowObj.name + "\")>" + rowObj.name + "</button>");
 			}
 		);
 		*/
-		
+
 		while(tables.step()) {
 			var rowObj = tables.getAsObject();
 			var name = rowObj.name;
-			
-			if(firstTableName === null) {
-				firstTableName = name;
-			}
-			
+
 			var rowCount = getTableRowsCount(name);
 			rowCounts[name] = rowCount;
 		}
 
         //Select first table and show It
-        tableList.select2("val", firstTableName);
-        doDefaultSelect(firstTableName);
+        tableList.select2("val", "Books");
+        doDefaultSelect("Books");
 
         $("#output-box").fadeIn();
         $(".nouploadinfo").hide();
@@ -288,7 +284,7 @@ function dropzoneClick() {
 }
 
 function doDefaultSelect(name) {
-    var defaultSelect = "SELECT * FROM '" + name + "' LIMIT 0,30";
+    var defaultSelect = "SELECT * FROM '" + name + "' LIMIT 30";
     editor.setValue(defaultSelect, -1);
     renderQuery(defaultSelect);
 }
@@ -456,7 +452,7 @@ function renderQuery(query) {
                 thead.append('<th><span data-toggle="tooltip" data-placement="top" title="' + type + '">' + columnNames[i] + "</span></th>");
             }
         }
-		
+
         var tr = $('<tr>');
         var s = sel.get();
 		// Get this column's content type
@@ -495,7 +491,7 @@ function renderQuery(query) {
 			} else {
             	tr.append('<td><span title="' + htmlEncode(s[i]) + '">' + htmlEncode(s[i]) + '</span></td>');
 			}
-			
+
 			// Append content
 			tbody.append(tr);
         }
