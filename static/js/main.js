@@ -486,6 +486,9 @@ function renderQuery(query) {
 					case "document":
 						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
 						break;
+                    case "viewpdf":
+                        tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchPDFModal(this.id)\">View</a></span></td>");
+                        break;
 					case "image":
 						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
 						break;
