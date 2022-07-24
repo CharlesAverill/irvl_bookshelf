@@ -12,6 +12,8 @@
 	"EE": "Electrical Engineering",
 	"CRP": "Cryptography",
 	"SEC": "Information Security",
-	"MISC": "Miscellaneous"
+	"MISC": "Miscellaneous",
+	"SIM": "Simulation",
+	"OS": "Operating Systems"
 }
 
