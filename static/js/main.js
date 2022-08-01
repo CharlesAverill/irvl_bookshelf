@@ -437,9 +437,11 @@ function renderQuery(query) {
     }
 
     var addedColums = false;
+    var ncolumns;
 	var contentIndex = -1;
 	var contentTypeIndex = -1;
     var topicIndex = -1;
+    var ddcIndex = -1;
 	var isbnColumns = [];
     while (sel.step()) {
         if (!addedColums) {
@@ -457,8 +459,15 @@ function renderQuery(query) {
                 } else if(columnNames[i].includes("ISBN")) {
 					isbnColumns.push(i);
 				}
+
                 var type = columnTypes[columnNames[i]];
-                thead.append('<th><span data-toggle="tooltip" data-placement="top" title="' + type + '">' + columnNames[i] + "</span></th>");
+                thead.append('<th><span data-toggle="tooltip" data-placement="top">' + columnNames[i] + "</span></th>");
+            }
+            ncolumns = columnNames.length;
+
+            if (tableName.includes("Book")) {
+                ddcIndex = ncolumns;
+                thead.append('<th><span data-toggle="tooltip" data-placement="top" title="Dewey Decimal Classification">DDC</span></th>');
             }
         }
 
@@ -469,16 +478,30 @@ function renderQuery(query) {
 		// Remove content type from visible columns
 		//s = s.slice(0, contentTypeIndex) + s.slice(contentTypeIndex + 1, s.length);
 		// Render data
-        for (var i = 0; i < s.length; i++) {
+		var isbn = null;
+        for (var i = 0; i < s.length + 1; i++) {
+            var htmlEncodedContent = htmlEncode(s[i]);
 			if(i == contentTypeIndex) {
 				continue;
 			} else if(isbnColumns.includes(i)) {
-				tr.append('<td><span title="' + htmlEncode(s[i]) + '"><a href=\"https://isbnsearch.org/isbn/' + htmlEncode(s[i]) + '\" target=\"_blank\">' + htmlEncode(s[i]) + '</a></span></td>');
+				tr.append('<td><span title="' + htmlEncodedContent + '"><a href=\"https://isbnsearch.org/isbn/' + contentTypeIndex + '\" target=\"_blank\">' + htmlEncodedContent + '</a></span></td>');
+                isbn = htmlEncodedContent;
+            } else if(i == ddcIndex) {
+                ddc_cat = null;
+
+                $.ajax({
+                    url: "http://classify.oclc.org/classify2/Classify?isbn=" + isbn + "&summary=true"
+                }).then(function(data) {
+                   ddc_cat = data;
+                });
+
+                if(ddc_cat != null) {
+                    tr.append('<td><span title="Dewey Decimal Category">' + ddc_cat + '</span></td>');
+                }
             } else if(i == topicIndex) {
-                tr.append('<td><span title="' + topics[htmlEncode(s[i])] + '">' + htmlEncode(s[i]) + '</span></td>');
+                tr.append('<td><span title="' + topics[htmlEncodedContent] + '">' + htmlEncodedContent + '</span></td>');
             } else if(i == contentIndex && contentType != null) {
 				// Render content
-				var htmlEncodedContent = htmlEncode(s[i]);
 				switch(contentType) {
 					case "url":
 						tr.append("<td><span title=\"" + htmlEncodedContent.slice(5) + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\" download>View</a></span></td>");
@@ -504,7 +527,7 @@ function renderQuery(query) {
 						break;
 				}
 			} else {
-            	tr.append('<td><span title="' + htmlEncode(s[i]) + '">' + htmlEncode(s[i]) + '</span></td>');
+            	tr.append('<td><span title="' + htmlEncodedContent + '">' + htmlEncodedContent + '</span></td>');
 			}
 
 			// Append content
