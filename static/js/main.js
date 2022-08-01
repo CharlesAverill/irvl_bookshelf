@@ -437,7 +437,6 @@ function renderQuery(query) {
     }
 
     var addedColums = false;
-    var ncolumns;
 	var contentIndex = -1;
 	var contentTypeIndex = -1;
     var topicIndex = -1;
@@ -456,18 +455,14 @@ function renderQuery(query) {
 					continue;
                 } else if(columnNames[i] == "Topic") {
                     topicIndex = i;
+                } else if(columnNames[i] == "DDC") {
+                    ddcIndex = i;
                 } else if(columnNames[i].includes("ISBN")) {
 					isbnColumns.push(i);
 				}
 
                 var type = columnTypes[columnNames[i]];
                 thead.append('<th><span data-toggle="tooltip" data-placement="top">' + columnNames[i] + "</span></th>");
-            }
-            ncolumns = columnNames.length;
-
-            if (tableName.includes("Book")) {
-                ddcIndex = ncolumns;
-                thead.append('<th><span data-toggle="tooltip" data-placement="top" title="Dewey Decimal Classification">DDC</span></th>');
             }
         }
 
@@ -479,25 +474,15 @@ function renderQuery(query) {
 		//s = s.slice(0, contentTypeIndex) + s.slice(contentTypeIndex + 1, s.length);
 		// Render data
 		var isbn = null;
-        for (var i = 0; i < s.length + 1; i++) {
+        for (var i = 0; i < s.length; i++) {
             var htmlEncodedContent = htmlEncode(s[i]);
 			if(i == contentTypeIndex) {
 				continue;
 			} else if(isbnColumns.includes(i)) {
-				tr.append('<td><span title="' + htmlEncodedContent + '"><a href=\"https://isbnsearch.org/isbn/' + contentTypeIndex + '\" target=\"_blank\">' + htmlEncodedContent + '</a></span></td>');
+				tr.append('<td><span title="' + htmlEncodedContent + '"><a href=\"https://isbnsearch.org/isbn/' + htmlEncodedContent + '\" target=\"_blank\">' + htmlEncodedContent + '</a></span></td>');
                 isbn = htmlEncodedContent;
             } else if(i == ddcIndex) {
-                ddc_cat = null;
-
-                $.ajax({
-                    url: "http://classify.oclc.org/classify2/Classify?isbn=" + isbn + "&summary=true"
-                }).then(function(data) {
-                   ddc_cat = data;
-                });
-
-                if(ddc_cat != null) {
-                    tr.append('<td><span title="Dewey Decimal Category">' + ddc_cat + '</span></td>');
-                }
+                tr.append('<td><span title="Dewey Decimal Category"><a href=\"http://classify.oclc.org/classify2/ClassifyDemo?search-standnum-txt=' + isbn + '\">' + htmlEncodedContent + '</a></span></td>');
             } else if(i == topicIndex) {
                 tr.append('<td><span title="' + topics[htmlEncodedContent] + '">' + htmlEncodedContent + '</span></td>');
             } else if(i == contentIndex && contentType != null) {
