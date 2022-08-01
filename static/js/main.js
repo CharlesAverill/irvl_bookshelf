@@ -478,25 +478,25 @@ function renderQuery(query) {
                 tr.append('<td><span title="' + topics[htmlEncode(s[i])] + '">' + htmlEncode(s[i]) + '</span></td>');
             } else if(i == contentIndex && contentType != null) {
 				// Render content
-				var htmlEncodedContent = "data/" + htmlEncode(s[i]);
+				var htmlEncodedContent = htmlEncode(s[i]);
 				switch(contentType) {
 					case "url":
-						tr.append("<td><span title=\"" + htmlEncodedContent.slice(5) + "\"><a href=\"" + htmlEncodedContent.slice(5) + "\" target=\"_blank\" download>View</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent.slice(5) + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\" download>View</a></span></td>");
 						break;
 					case "document":
-						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"data/DocumentScans/" + htmlEncodedContent + "\" target=\"_blank\">Download</a></span></td>");
 						break;
                     case "viewpdf":
-                        tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchPDFModal(this.id)\">View</a></span></td>");
+                        tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"data/DocumentScans/" + htmlEncodedContent + "\" onclick=\"launchPDFModal(this.id)\">Quick Look</a></span></td>");
                         break;
 					case "image":
-						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"data/DocumentScans/" + htmlEncodedContent + "\" onclick=\"launchImageModal(this.id)\">View</a></span></td>");
 						break;
 					case "audio":
-						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchAudioModal(this.id)\">Listen</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"data/AudioRips/" + htmlEncodedContent + "\" onclick=\"launchAudioModal(this.id)\">Listen</a></span></td>");
 						break;
 					case "video":
-						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"" + htmlEncodedContent + "\" onclick=\"launchVideoModal(this.id)\">Watch</a></span></td>");
+						tr.append("<td><span title=\"" + htmlEncodedContent + "\"><a href=\"#\" id=\"data/VideoRips/" + htmlEncodedContent + "\" onclick=\"launchVideoModal(this.id)\">Watch</a></span></td>");
 						break;
 					default:
 						console.error("Content type " + contentType + " not supported");
