@@ -18,6 +18,8 @@
 	"SEC": "Information Security",
 	"MISC": "Miscellaneous",
 	"SIM": "Simulation",
-	"OS": "Operating Systems"
+	"OS": "Operating Systems",
+	"DB": "Databases",
+	"PHIL": "Philosophy"
 }
 

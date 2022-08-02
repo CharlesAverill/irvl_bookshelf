@@ -9,6 +9,12 @@ cursor.execute("SELECT ISBN13 FROM Books")
 isbns = [i[0] for i in cursor.fetchall()]
 
 for isbn in isbns:
+	cursor.execute(f"SELECT DDC FROM Books WHERE ISBN13='{isbn}'")
+	ddc_result = cursor.fetchall()
+	if len(ddc_result):
+		ddc_result = ddc_result[0][0]
+	if ddc_result:	
+		continue
 	print("-------------------------------------------------")
 	response_text = requests.post(f"http://classify.oclc.org/classify2/Classify?isbn={isbn}&summary=true").text
 	found = re.search("\ssfa=\"(?P<ddc>\d\d\d(\.\d*)?)\"", response_text)

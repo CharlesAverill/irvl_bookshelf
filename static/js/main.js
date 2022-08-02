@@ -70,6 +70,11 @@ var positionFooter = function () {
         });
         pager.css("display", bottomBarDisplayStyle);
     }
+
+    var tas = $("textarea");
+    if(tas.length > 1) {
+        tas[1].remove();
+    }
 };
 
 var toggleFullScreen = function () {
@@ -476,13 +481,18 @@ function renderQuery(query) {
 		var isbn = null;
         for (var i = 0; i < s.length; i++) {
             var htmlEncodedContent = htmlEncode(s[i]);
+            var isEmpty = isbn == null || isbn.length == 0;
 			if(i == contentTypeIndex) {
 				continue;
 			} else if(isbnColumns.includes(i)) {
 				tr.append('<td><span title="' + htmlEncodedContent + '"><a href=\"https://isbnsearch.org/isbn/' + htmlEncodedContent + '\" target=\"_blank\">' + htmlEncodedContent + '</a></span></td>');
                 isbn = htmlEncodedContent;
             } else if(i == ddcIndex) {
-                tr.append('<td><span title="Dewey Decimal Category"><a href=\"http://classify.oclc.org/classify2/ClassifyDemo?search-standnum-txt=' + isbn + '\">' + htmlEncodedContent + '</a></span></td>');
+                if(isEmpty) {
+                    tr.append('<td><span title="Dewey Decimal Category">' + htmlEncodedContent + '</span></td>');
+                } else {
+                    tr.append('<td><span title="Dewey Decimal Category"><a href=\"http://classify.oclc.org/classify2/ClassifyDemo?search-standnum-txt=' + isbn + '\">' + htmlEncodedContent + '</a></span></td>');
+                }
             } else if(i == topicIndex) {
                 tr.append('<td><span title="' + topics[htmlEncodedContent] + '">' + htmlEncodedContent + '</span></td>');
             } else if(i == contentIndex && contentType != null) {
