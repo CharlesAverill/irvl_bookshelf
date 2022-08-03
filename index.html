@@ -59,15 +59,17 @@
 				</div>-->
                 <select id="tables" class="form-control select2" title="Table"></select><br />
             </div>
-
-            <div class="col-md-11">
+        </div>
+        <div class="row" style="padding-bottom: 1.5em;">
+            <div class="col-md-10">
                 <div id="sql-editor" class="panel panel-default form-control form-control-lg" onkeydown="onKeyDown(event)"></div>
             </div>
 
-            <div class="col-sm-1">
-                <button class="btn btn-sm btn-primary" id="sql-run" type="submit" onclick="executeSql(this)">Execute SQL</button>
+            <div class="col-sm-2">
+                <button class="btn btn-sm btn-primary" id="sql-run" type="submit" onclick="executeSql(this)" style="margin: auto;display: block;">Execute SQL</button>
             </div>
-
+        </div>
+        <div class="row">
             <div class="col-md-12">
 
                 <div style="overflow-x: auto">
